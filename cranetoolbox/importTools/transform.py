@@ -239,12 +239,12 @@ def lighten_tweet(tweet: dict, text_field_key, id_field_key, date_field_key) -> 
 
     :param tweet: A parsed JSON tweet
     :type tweet: dict
-    :param text_name : User-defined name for the "text" field
-    :type text_name: str
-    :param id_name : User-defined name for the "id" field
-    :type id_name: str
-    :param date_name : User-defined name for the "created_at" field
-    :type date_name: str
+    :param text_field_key: User-defined name for the "text" field
+    :type text_field_key: str
+    :param id_field_key: User-defined name for the "id" field
+    :type id_field_key: str
+    :param date_field_key: User-defined name for the "created_at" field
+    :type date_field_key: str
     :return: A tuple of the three values scraped from the passed tweet
     :rtype: tuple(str, str, str)
     """
