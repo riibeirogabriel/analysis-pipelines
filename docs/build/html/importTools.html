@@ -156,7 +156,7 @@
 <span id="importtools-module"></span><h1>importTools module<a class="headerlink" href="#module-cranetoolbox.importTools.transform" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt id="cranetoolbox.importTools.transform.TransformationOptions">
-<em class="property">class </em><code class="sig-prename descclassname">cranetoolbox.importTools.transform.</code><code class="sig-name descname">TransformationOptions</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">languagefilter</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="n">retweets</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span></em>, <em class="sig-param"><span class="n">max_in_mem</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></span></em>, <em class="sig-param"><span class="n">textname</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="n">idname</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="n">datename</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cranetoolbox.importTools.transform.TransformationOptions" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">cranetoolbox.importTools.transform.</code><code class="sig-name descname">TransformationOptions</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">languagefilter</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="n">retweets</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span></em>, <em class="sig-param"><span class="n">max_in_mem</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></span></em>, <em class="sig-param"><span class="n">text_field_key</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="n">id_field_key</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="n">date_field_key</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cranetoolbox.importTools.transform.TransformationOptions" title="Permalink to this definition">¶</a></dt>
 <dd><p>A simple class to handle ETL options as specified in the driver</p>
 </dd></dl>
 
@@ -203,19 +203,19 @@
 
 <dl class="py function">
 <dt id="cranetoolbox.importTools.transform.lighten_tweet">
-<code class="sig-prename descclassname">cranetoolbox.importTools.transform.</code><code class="sig-name descname">lighten_tweet</code><span class="sig-paren">(</span><em class="sig-param">tweet: dict</em>, <em class="sig-param">text_name</em>, <em class="sig-param">id_name</em>, <em class="sig-param">date_name) -&gt; (&lt;class 'str'&gt;</em>, <em class="sig-param">&lt;class 'str'&gt;</em>, <em class="sig-param">&lt;class 'str'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#cranetoolbox.importTools.transform.lighten_tweet" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">cranetoolbox.importTools.transform.</code><code class="sig-name descname">lighten_tweet</code><span class="sig-paren">(</span><em class="sig-param">tweet: dict</em>, <em class="sig-param">text_field_key</em>, <em class="sig-param">id_field_key</em>, <em class="sig-param">date_field_key) -&gt; (&lt;class 'str'&gt;</em>, <em class="sig-param">&lt;class 'str'&gt;</em>, <em class="sig-param">&lt;class 'str'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#cranetoolbox.importTools.transform.lighten_tweet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Lighten a tweet by returning only the fields required for analysis.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>tweet</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – A parsed JSON tweet</p>
 </dd>
 </dl>
-<p>:param text_name : A string to different text field name
-:type text_name: string
-:param id_name : A string to different id field name
-:type id_name: string
-:param date_name : A string to different date field name
-:type date_name: string
+<p>:param text_name : User-defined name for the “text” field
+:type text_name: str
+:param id_name : User-defined name for the “id” field
+:type id_name: str
+:param date_name : User-defined name for the “created_at” field
+:type date_name: str
 :return: A tuple of the three values scraped from the passed tweet
 :rtype: tuple(str, str, str)</p>
 </dd></dl>

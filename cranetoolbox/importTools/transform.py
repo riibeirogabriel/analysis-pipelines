@@ -15,13 +15,13 @@ class TransformationOptions:
     max_in_memory_size: int
 
     def __init__(self, languagefilter: str, retweets: bool, max_in_mem: int,
-                 textname: str, idname: str, datename: str):
+                 text_field_key: str, id_field_key: str, date_field_key: str):
         self.filter_language = languagefilter
         self.include_retweet = retweets
         self.max_in_memory_size = max_in_mem
-        self.text_name = textname
-        self.id_name = idname
-        self.date_name = datename
+        self.text_field_key = text_field_key
+        self.id_field_key = id_field_key
+        self.date_field_key = date_field_key
 
 
 def process_files(file_list: List[str], opts: TransformationOptions,
@@ -101,7 +101,7 @@ def write_tweets_by_chunk(lines, csv_output_path: str,
 
 
 def filter_lighten_chunk(chunk, opts: TransformationOptions) -> (
-List[dict], int):
+        List[dict], int):
     """Filter and lighten a given set of lines, keeping only important keys
 
     :param chunk: The chunk of lines to process
@@ -121,7 +121,6 @@ List[dict], int):
             parse_failure_count += 1
             continue
         if matches_language_filter(tweet, opts):
-            # This is dirty and redudant but I don't know of a better method.
             # We need to check if it's a retweet, and if it's the case that it is
             # a retweet only include it if the flag has been specified
             if is_retweet(tweet) and not opts.include_retweet:
@@ -130,9 +129,9 @@ List[dict], int):
                 try:
                     light_tweet = lighten_tweet(
                         tweet,
-                        opts.text_name,
-                        opts.id_name,
-                        opts.date_name)
+                        opts.text_field_key,
+                        opts.id_field_key,
+                        opts.date_field_key)
                 except ValueError:
                     # Issue parsing JSON tweet, raise this as a failure and continue
                     parse_failure_count += 1
@@ -234,29 +233,29 @@ def parse_tweet(tweet: str) -> dict:
     return json.loads(tweet)
 
 
-def lighten_tweet(tweet: dict, text_name, id_name, date_name) -> (
-str, str, str):
+def lighten_tweet(tweet: dict, text_field_key, id_field_key, date_field_key) -> (
+        str, str, str):
     """Lighten a tweet by returning only the fields required for analysis.
 
     :param tweet: A parsed JSON tweet
     :type tweet: dict
-    :param text_name : A string to different text field name
-    :type text_name: string
-    :param id_name : A string to different id field name
-    :type id_name: string
-    :param date_name : A string to different date field name
-    :type date_name: string
+    :param text_name : User-defined name for the "text" field
+    :type text_name: str
+    :param id_name : User-defined name for the "id" field
+    :type id_name: str
+    :param date_name : User-defined name for the "created_at" field
+    :type date_name: str
     :return: A tuple of the three values scraped from the passed tweet
     :rtype: tuple(str, str, str)
     """
 
-    if date_name is not None:
-        created_at = tweet.get(date_name, None)
+    if date_field_key is not None:
+        created_at = tweet.get(date_field_key, None)
     else:
         created_at = tweet.get("created_at", None)
 
-    if id_name is not None:
-        tweet_id = tweet.get(id_name, None)
+    if id_field_key is not None:
+        tweet_id = tweet.get(id_field_key, None)
     else:
         tweet_id = tweet.get("id", None)
 
@@ -265,14 +264,11 @@ str, str, str):
     if tweet.get("truncated", False):
         ext_tweet = tweet.get("extended_tweet", None)
         if ext_tweet is not None:
-            if text_name is None:
-                text = ext_tweet.get("full_text", "")
-            else:
-                text = ext_tweet.get("full_" + text_name, "")
+            text = ext_tweet.get("full_text", "")
 
     else:
-        if text_name is not None:
-            text = tweet.get(text_name, "")
+        if text_field_key is not None:
+            text = tweet.get(text_field_key, "")
         else:
             text = tweet.get("text", "")
 
