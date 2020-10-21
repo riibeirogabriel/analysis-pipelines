@@ -1,5 +1,15 @@
 # Crisis Racism and Narrative Evaluation
 
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[all-contributors]: https://img.shields.io/badge/all_contributors-12-orange.svg?style=flat 'Number of contributors'
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
+
+[![All Contributors][all-contributors]](#link)
+![alt text](https://img.shields.io/github/license/CRANE-toolbox/analysis-pipelines "License")
+![alt text](https://img.shields.io/pypi/v/cranetoolbox "Pypi version")
+![alt text](https://img.shields.io/github/last-commit/CRANE-toolbox/analysis-pipelines "Last commit")
+![alt text](https://img.shields.io/github/issues/CRANE-toolbox/analysis-pipelines/help%20wanted "Number of 'help wanted' issues")
+
 Project **CRANE** (Crisis Racism and Narrative Evaluation) aims to **support researchers and anti-racist organisations** that wish to use **state-of-the-art text analysis algorithms** to study how specific **events impact online hate speech and racist narratives**. CRANE Toolbox is a **Python package**: once installed, the tools in CRANE are available as functions that users can use in their Python programs or directly through their terminal. CRANE targets users with basic programming but **no machine learning skills**.
 
 [Skip to Quick-start](###Quick-start)
@@ -36,6 +46,7 @@ Project **CRANE** (Crisis Racism and Narrative Evaluation) aims to **support res
 <!-- /TOC -->
 
 ## Introduction
+[Back to top](#crisis-racism-and-narrative-evaluation)
 
 ### Genesis
 
@@ -43,7 +54,7 @@ Project **CRANE** (Crisis Racism and Narrative Evaluation) aims to **support res
 
 ### Project motivation
 
-While doing literature review we noticed that few papers on online hate speech monitoring had both a sociology research approach and recent natural language processing tools. The literature seems to be divided mainly into methodological papers aiming to develop new machine learning tools to detect and characterise racism, and traditional sociology research approaches, both qualitative and quantitative, that do not take full advantage of the available data and analysis methods.
+While doing literature review, we noticed that few papers on online hate speech monitoring had both a sociology research approach and recent natural language processing tools. The literature seems to be divided mainly into methodological papers aiming to develop new machine learning tools to detect and characterise racism, and traditional sociology research approaches, both qualitative and quantitative, that do not take full advantage of the available data and analysis methods.
 
 We are aware that this is due in part to the difficulty of gathering interdisciplinary teams from very different fields, and in part to the rather young and precarious nature of automated hate speech detection.
 
@@ -51,7 +62,7 @@ Our experiences during the hackathon lead us to believe that these issues could 
 
 ### CRANE Toolbox: The Python package for data analysis
 
-CRANE Toolbox is designed to **support researchers and anti-racist organisations** in studying **how specific events impact online hate speech and racist narratives**. State-of-the-art text analysis algorithms evolve quickly and their spread is often limited to the dedicated field of computer science research. CRANE Toolbox wraps some of those methods, that fit typical social sciences questions, into **user-friendly tools that require no machine learning skills**.
+CRANE Toolbox is designed to **support researchers and anti-racist organisations** in studying **how specific events impact online hate speech and racist narratives**. State-of-the-art text analysis algorithms evolve quickly, and their spread is often limited to the dedicated field of computer science research. CRANE Toolbox wraps some of those methods, that fit typical social sciences questions, into **user-friendly tools that require no machine learning skills**.
 
 :warning:In this first version, CRANE Toolbox will remain **specific to tweet analysis**.
 
@@ -65,6 +76,7 @@ CRANE Toolbox is a **Python package**. Once [installed](#install-crane-toolbox),
 
 
 ## Quick-start
+[Back to top](#crisis-racism-and-narrative-evaluation)
 
 :information_source: This section is for experienced programmers who want to dive head-first into the deep end. If you have no idea what we are talking about in there, please don't run away screaming!
 Though the length of the [Package Documentation section](##Package-documentation) might make it a bit daunting, we wrote it with non-specialists in mind, so you should find all the instructions and advice you need to use the CRANE Toolbox.
@@ -100,6 +112,7 @@ crane-analysis-quanti ./my_preproc_output keywords.json quanti_results.csv
 
 
 ## Package documentation
+[Back to top](#crisis-racism-and-narrative-evaluation)
 
 This section is divided into two parts: a first one describing how to install CRANE Toolbox and run its tools, either in command-line mode in a terminal or through function calls in Python scripts; and a second one giving details on each module, in particular data format and parameter choice.
 
@@ -115,11 +128,11 @@ In order to successfully install CRANE Toolbox, you will need:
 - Python 3
 - pip for Python 3
 
-Some **basic knowledge in programming and command-lines is strongly recommanded**, but the brave and the studious may choose to proceed without.
+Some **basic knowledge in programming and command-lines is strongly recommended**, but the brave and the studious may choose to proceed without.
 
 If the above list is clear for you, skip to the [installation instructions](#install-crane-toolbox). Else, read the following paragraphs to get your environment ready.
 
-:warning:If you choose not to follow the recommanded installation process, you will probably need to install additional packages or software.
+:warning:If you choose not to follow the recommended installation process, you will probably need to install additional packages or software.
 
 ##### What is a terminal and where do I find one?
 
@@ -204,8 +217,11 @@ If the output file already exists, it will append to the existing file. In the c
 The import package can be used as a command-line tool and supports a several different options.
 
 - (Required) `--source-folder` The source folder or file to scan for files/archives to process.
-- (Optional) `--output-folder` The folder to save the output. The specified folder must exists. Defaults to `./`.
+- (Optional) `--output-folder` The folder to save the output. The specified folder must exist. Defaults to `./`.
 - (Optional) `--output-name` The name, including extension, of the output file. Defaults to `output.csv`.
+- (Optional) `--text-name` The name to text field, case this field has a different name.
+- (Optional) `--date-name` The name to created_at field, case this field has a different name.
+- (Optional) `--id-name` The name to id field, case this field has a different name.
 - (Optional) `--tweet-language` The language of tweets saved to the file. Based on the language field in the
 JSON object. Defaults to `en`.
 - (Optional) `--max-lines-in-memory` The maximum number of lines that will be held in memory. This can be adjusted to
@@ -236,7 +252,8 @@ The dataset given as the first positional argument can be either a folder of CSV
 
 In order and for a given string, it will:
 - Transform uppercase characters to lowercase,
-- Remove unicode strings (e.g. `\u002c`),
+- Remove escaped unicode strings (e.g. `\u002c`),
+- Remove non-ascii characters,
 - Replace urls with "url", or remove them if `-url` is specified,
 - Replace mentions (e.g. "@BobTheSurfer") with "atUser", or remove them if `-mention` is specified,
 - Remove the hash symbol in front of hashtags (e.g. "#spreadTheLove", and segment the hashtags if `-hashtag` is specified,
@@ -244,7 +261,7 @@ In order and for a given string, it will:
 - Replace repeated punctuation signs with a textual equivalent (e.g. "!!!" becomes "multiExclamation") and newlines with spaces, or remove all punctuation except underscore characters if `punct` is specified,
 - Replace numbers with their English text version, or remove them if `-num` is specified.
 
-Hashtags are segmented, *i.e.* seperated into words, using the [wordsegment](`https://pypi.org/project/wordsegment/`) package. :warning: Only supported for English language. :warning::warning::warning::warning:Word segmentation runs in polynomial time and increase the preprocessing time by several orders of magnitude.
+Hashtags are segmented, *i.e.* separated into words, using the [wordsegment](`https://pypi.org/project/wordsegment/`) package. :warning: Only supported for English language. :warning::warning::warning::warning:Word segmentation runs in polynomial time and increase the preprocessing time by several orders of magnitude.
 
 :warning: The algorithm to unpack contractions is currently rather basic. It will for example mistakenly interpret the possessive "'s" as a verb contraction.
 
@@ -282,7 +299,7 @@ Currently the analysis module only offers some simple quantitative analysis pipe
 
 This analysis pipeline is accessible from the `crane-analysis-quanti` command-line entry point.
 
-It computes the daily frequency of given keywords in a dataset. It allows for variants of keywords. For example, occurences of "boys" and "boyz" can be counted together.
+It computes the daily frequency of given keywords in a dataset. It allows for variants of keywords. For example, occurrences of "boys" and "boyz" can be counted together.
 
 #### Expected input format
 
@@ -338,6 +355,8 @@ crane-analysis-quanti mydataset/preprocessedData keywords.json quanti_results.cs
 **Not implemented yet**
 
 ## Contributing
+[Back to top](#crisis-racism-and-narrative-evaluation)
+
 We welcome all contributions! If you have questions, a feature request or some feedback, please use the **issues** feature of GitHub.
 
 The [Issues page](https://github.com/CRANE-toolbox/analysis-pipelines/issues) works rather like your good old forum page, with many additional features specific to programming and git versioning. GitHub provides a [detailed guide](https://guides.github.com/features/issues/) to them, but here are the basics:
@@ -350,7 +369,7 @@ The [Issues page](https://github.com/CRANE-toolbox/analysis-pipelines/issues) wo
 
 ### Adding to the code base
 You are welcome to submit Pull Requests for open issues. In particular, issues tagged "help-wanted" are usually things the core team is struggling with.
-Here is the guidelines we ask you to follow when contributing to the code base.
+Here are the guidelines we ask you to follow when contributing to the code base.
 - Comment on the issue to notify everyone of your intention to do so to make sure no one else is working on the same problem.
 - Tackle only one issue per PR, unless you've discussed it with the core team before and they agree a grouped PR makes more sense.
 - Reference the issue you are tackling in your PR.
@@ -363,6 +382,7 @@ If you wish to involve yourself further (reviewing PRs, planning for new feature
 We have chosen to onboard people privately instead of sharing all our resources in the repo for two reasons. First, we wanted to make it easier for users not used to open source projects to find what they need. Second, some of our resources contain private information from user research.
 
 ## Frequently asked questions
+[Back to top](#crisis-racism-and-narrative-evaluation)
 
 ### On the CRANE project
 
@@ -373,13 +393,42 @@ https://crane-toolbox.github.io/#/ is a prototype website build during the Resil
 We do not plan to at the moment. Due to the composition of the team, we have decided to focus our efforts on CRANE Toolbox, where we believe we can make a difference.
 
 ###### Who is doing this?
-Currently, the team is composed of two Computer Science students, two designers and a research engineer (Emma Barme, [Rachael Dier](http://rachaeldier.com/), Kelly Ly, [Svetlana Moldavskaya](https://www.behance.net/svetlanacheban), and Ian Saucy), supported by Boston University Spark! organisation and Assistant Professor Gianluca Stringhini.
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/LaChapeliere"><img src="https://avatars2.githubusercontent.com/u/7062546?v=4" width="100px;" alt=""/><br /><sub><b>LaChapeliere</b></sub></a><br /><a href="https://github.com/CRANE-toolbox/analysis-pipelines/commits?author=LaChapeliere" title="Code">💻</a> <a href="https://github.com/CRANE-toolbox/analysis-pipelines/commits?author=LaChapeliere" title="Tests">⚠️</a> <a href="https://github.com/CRANE-toolbox/analysis-pipelines/commits?author=LaChapeliere" title="Documentation">📖</a> <a href="#ideas-LaChapeliere" title="Ideas, Planning, & Feedback">🤔</a> <a href="#maintenance-LaChapeliere" title="Maintenance">🚧</a> <a href="#projectManagement-LaChapeliere" title="Project Management">📆</a></td>
+    <td align="center"><a href="https://github.com/gianlucasb"><img src="https://avatars0.githubusercontent.com/u/3453311?v=4" width="100px;" alt=""/><br /><sub><b>Gianluca Stringhini</b></sub></a><br /><a href="#ideas-gianlucasb" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <td align="center"><a href="http://shiva.codes"><img src="https://avatars1.githubusercontent.com/u/993923?v=4" width="100px;" alt=""/><br /><sub><b>Marko Shiva Pavlovic</b></sub></a><br /><a href="https://github.com/CRANE-toolbox/analysis-pipelines/commits?author=MarkoShiva" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/ccatterina"><img src="https://avatars3.githubusercontent.com/u/9085116?v=4" width="100px;" alt=""/><br /><sub><b>Claudio Catterina</b></sub></a><br /><a href="https://github.com/CRANE-toolbox/analysis-pipelines/commits?author=ccatterina" title="Code">💻</a> <a href="https://github.com/CRANE-toolbox/analysis-pipelines/commits?author=ccatterina" title="Tests">⚠️</a></td>
+    <td align="center"><a href="https://github.com/SvetlanaMoldavskaya"><img src="https://avatars3.githubusercontent.com/u/9784356?v=4" width="100px;" alt=""/><br /><sub><b>SvetlanaMd</b></sub></a><br /><a href="#content-SvetlanaMoldavskaya" title="Content">🖋</a> <a href="https://github.com/CRANE-toolbox/analysis-pipelines/commits?author=SvetlanaMoldavskaya" title="Documentation">📖</a> <a href="#design-SvetlanaMoldavskaya" title="Design">🎨</a> <a href="#userTesting-SvetlanaMoldavskaya" title="User Testing">📓</a> <a href="#ideas-SvetlanaMoldavskaya" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <td align="center"><a href="https://github.com/IanSaucy"><img src="https://avatars2.githubusercontent.com/u/30986157?v=4" width="100px;" alt=""/><br /><sub><b>Ian</b></sub></a><br /><a href="https://github.com/CRANE-toolbox/analysis-pipelines/commits?author=IanSaucy" title="Code">💻</a> <a href="https://github.com/CRANE-toolbox/analysis-pipelines/commits?author=IanSaucy" title="Tests">⚠️</a> <a href="https://github.com/CRANE-toolbox/analysis-pipelines/commits?author=IanSaucy" title="Documentation">📖</a> <a href="#ideas-IanSaucy" title="Ideas, Planning, & Feedback">🤔</a> <a href="#infra-IanSaucy" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#projectManagement-IanSaucy" title="Project Management">📆</a> <a href="https://github.com/CRANE-toolbox/analysis-pipelines/pulls?q=is%3Apr+reviewed-by%3AIanSaucy" title="Reviewed Pull Requests">👀</a></td>
+    <td align="center"><a href="http://paulmhan.com"><img src="https://avatars3.githubusercontent.com/u/58451541?v=4" width="100px;" alt=""/><br /><sub><b>Paul Han</b></sub></a><br /><a href="https://github.com/CRANE-toolbox/analysis-pipelines/commits?author=paulmhan" title="Code">💻</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://devpost.com/lykelly19"><img src="https://avatars2.githubusercontent.com/u/40868256?v=4" width="100px;" alt=""/><br /><sub><b>Kelly</b></sub></a><br /><a href="https://github.com/CRANE-toolbox/analysis-pipelines/commits?author=lykelly19" title="Code">💻</a> <a href="#ideas-lykelly19" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/CRANE-toolbox/analysis-pipelines/issues?q=author%3Alykelly19" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="http://www.linkedin.com/in/riibeirogabriel/"><img src="https://avatars0.githubusercontent.com/u/33736256?v=4" width="100px;" alt=""/><br /><sub><b>Gabriel Ribeiro</b></sub></a><br /><a href="https://github.com/CRANE-toolbox/analysis-pipelines/commits?author=riibeirogabriel" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/WorkInProgress-Development"><img src="https://avatars2.githubusercontent.com/u/38821590?v=4" width="100px;" alt=""/><br /><sub><b>Isaac</b></sub></a><br /><a href="https://github.com/CRANE-toolbox/analysis-pipelines/commits?author=WorkInProgress-Development" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/tomasloksa"><img src="https://avatars2.githubusercontent.com/u/28986303?v=4" width="100px;" alt=""/><br /><sub><b>Tomáš Lokša</b></sub></a><br /><a href="https://github.com/CRANE-toolbox/analysis-pipelines/commits?author=tomasloksa" title="Code">💻</a> <a href="https://github.com/CRANE-toolbox/analysis-pipelines/commits?author=tomasloksa" title="Documentation">📖</a></td>
+    <td align="center"><a href="http://jd7h.com"><img src="https://avatars2.githubusercontent.com/u/690008?v=4" width="100px;" alt=""/><br /><sub><b>Judith van Stegeren</b></sub></a><br /><a href="https://github.com/CRANE-toolbox/analysis-pipelines/commits?author=jd7h" title="Code">💻</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-enable -->
+<!-- prettier-ignore-end -->
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+[Emoji key](https://allcontributors.org/docs/en/emoji-key)
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
 
 The list of hackathon contributors for the first phase of the project can be found on [CRANE Devpost page](https://devpost.com/software/crane-dvkeuf).
 
 ###### Can I help?
 
-Yes! Check out the [Contributing](##Contributing) section.
+Yes! Check out the [Contributing](#contributing) section.
 
 ### On using CRANE Toolbox
 
@@ -389,7 +438,7 @@ Python is a very common programming language for data analysis tasks. Packages a
 That said, if you are entirely unfamiliar with Python, you might want to experiment with it some before using CRANE Toolbox.
 
 ###### I have a question/a feature request/some feedback, how do I contact you?
-Please use the [**Issues** page](https://github.com/CRANE-toolbox/analysis-pipelines/issues) of this repo. Check out the [Contributing](##Contributing) section for more details.
+Please use the [**Issues** page](https://github.com/CRANE-toolbox/analysis-pipelines/issues) of this repo. Check out the [Contributing](#contributing) section for more details.
 
 ###### Can I copy your code for my project?
 CRANE Toolbox is distributed under [GNU Affero General Public License v3.0](https://github.com/CRANE-toolbox/analysis-pipelines/blob/master/LICENSE).
@@ -400,7 +449,7 @@ You can use it however you want provided you respect the license requirements: i
 Please link to this repo.
 
 ###### Where can I find Twitter data?
-Sharing of tweets datasets is restricted by [Twitter Developer Terms](https://developer.twitter.com/en/developer-terms/policy). You will not be able to find publicly available datasets with tweets content, but rather datasets of tweet ids. Those can by *hydrated*, using for example [Hydrator](https://github.com/DocNow/hydrator).
+Sharing of tweets datasets is restricted by [Twitter Developer Terms](https://developer.twitter.com/en/developer-terms/policy). You will not be able to find publicly available datasets with tweets content, but rather datasets of tweet ids. Those can be *hydrated*, using for example [Hydrator](https://github.com/DocNow/hydrator).
 
 From there it really depends on your research topic and questions.
 Some are very time-sensitive, some are less. If yours are not very time-sensitive, try your luck with a regular search engine.
@@ -409,7 +458,7 @@ Others require a dataset that has already been filtered for specific keywords or
 If you don't need historical data, you could also start your own Twitter stream to collect exactly the data you desire.
 
 ###### My data is not in your specific input format, what do I do?
-We are working to include several standard input format to our *import* module. If your data format is not supported, please [get in touch](##Contributing) and we will do our best to either include support for it in CRANE Toolbox or guide you to transform it into one of our supported format.
+We are working to include several standard input formats to our *import* module. If your data format is not supported, please [get in touch](#contributing) and we will do our best to either include support for it in CRANE Toolbox or guide you to transform it into one of our supported formats.
 
 ###### Method X is very useful and should be included, why is it not there?
-Maybe we don't know about it, maybe we didn't have time to implement it yet, maybe we choose not to include it for a given reason. Please [get in touch](##Contributing) to tell us about it. (Unless it's a proprietary method with a use fee.)
+Maybe we don't know about it, maybe we didn't have time to implement it yet, maybe we choose not to include it for a given reason. Please [get in touch](#contributing) to tell us about it. (Unless it's a proprietary method with a use fee.)

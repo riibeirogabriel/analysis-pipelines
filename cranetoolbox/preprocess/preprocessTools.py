@@ -7,12 +7,13 @@ import wordsegment
 from num2words import num2words
 
 
-def remove_unicode(text: str) -> str:
-    """ Removes unicode strings like "\u002c" and "x96" """
-    text = re.sub(r'(\\u[0-9A-Fa-f]+)', r'', text)
-    text = re.sub(r'[^\x00-\x7f]', r'', text)
-    return text
+def remove_escaped_unicode(text: str) -> str:
+    """ Removes escaped unicode characters from the text """
+    return re.sub(r'(\\u[0-9A-Fa-f]+)', r'', text)
 
+def remove_non_ascii(text: str) -> str:
+    """ Removes non ascii characters from the text """
+    return re.sub(r'[^\x00-\x7f]', '', text)
 
 def replace_url(text: str) -> str:
     """ Replaces url address with "url" """
@@ -112,5 +113,7 @@ def remove_numbers(text: str) -> str:
 
 def replace_numbers(text: str) -> str:
     """Replaces numbers with their text version"""
-    text = re.sub(r"(\d+)", lambda x: num2words(int(x.group(0))), text)
+    text = re.sub(r"(\d+)(st|nd|rd|th)?",
+                  lambda x: num2words(int(x.group(1)), x.group(2) is not None),
+                  text)
     return text
